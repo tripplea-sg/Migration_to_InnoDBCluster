@@ -1,1 +1,1 @@
-# Migrating to MySQL Enterprise Edition with InnoDB Cluster 
+# Clustering and data protection with MySQL InnoDB Cluster and MySQL Enterprise Backup
