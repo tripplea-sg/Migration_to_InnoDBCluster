@@ -16,3 +16,5 @@ InnoDB ClusterSet is a topology to club 2 or more InnoDB Cluster to a single set
 
 ## About MySQL Enterprise Backup
 MySQL Enterprise Backup (MEB) is an online backup feature to backup MySQL Enterprise Edition database. It is a multi-platform, high-performance tool, offering rich features like “hot” (online) backup, incremental and differential backup, selective backup and restore, support for direct cloud storage backup, backup encryption and compression, and many other valuable features. It's physical backup reading physical datafiles and move pages to a specified backup location as backup files. It doesn't do InnoDB tables locking apart from instance locking for backup in the beginning for less than a second and before completing the backup. For non-InnoDB tables, locking will happen when backing up, but can be skipped using --only-innodb or --no-locking options. We use MEB to restore and recover a MySQL Enterprise Edition database. We use MEB backup metadata information to restore mysql binlog for PITR and meeting business RPO.
+
+## Lab Content
