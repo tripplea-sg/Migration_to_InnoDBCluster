@@ -25,7 +25,7 @@ tar -zxvf mysql-router-commercial-8.0.30-el7-x86_64.tar.gz
 Create environment file to source MySQL Enterprise. Copy the following line and create $HOME/.8030.env file </br>
 command: 
 ```
-vi $HOME/.8030.env)
+vi $HOME/.8030.env
 ```
 Copy and paste to vi
 ```
