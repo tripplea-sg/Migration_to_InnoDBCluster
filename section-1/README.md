@@ -29,7 +29,7 @@ vi $HOME/.8030.env
 ```
 Copy and paste to vi
 ```
-PATH=$PATH:/home/opc/software/mysql-commercial-8.0.30-el7-x86_64/bin:/home/opc/software/mysql-router-commercial-8.0.30-el7-x86_64
+PATH=$PATH:/home/opc/software/mysql-commercial-8.0.30-el7-x86_64/bin:/home/opc/software/mysql-router-commercial-8.0.30-el7-x86_64/bin
 ```
 Source environment: a process that we need to include MySQL into $PATH
 ```
