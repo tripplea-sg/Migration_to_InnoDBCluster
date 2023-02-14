@@ -115,3 +115,4 @@ Login and query tables
 mysql -uroot -h::1 -e "select * from nation.languages"
 mysql -uroot -h::1 -e "select * from nation.countries"
 ```
+## Smooth Migration with Async Replication
