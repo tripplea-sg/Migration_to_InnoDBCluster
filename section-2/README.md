@@ -108,3 +108,9 @@ Adding nodes into cluster
 mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@localhost:3307 --recoveryMethod=clone
 mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@localhost:3308 --recoveryMethod=clone
 ```
+Check InnoDB Cluster status
+```
+mysqlsh gradmin:grpass@localhost:3306 -- cluster status
+```
+## Setup MySQL Router
+
