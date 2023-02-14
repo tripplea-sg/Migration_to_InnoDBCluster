@@ -113,4 +113,11 @@ Check InnoDB Cluster status
 mysqlsh gradmin:grpass@localhost:3306 -- cluster status
 ```
 ## Setup MySQL Router
-
+Bootstrap router
+```
+mysqlrouter --bootstrap gradmin:grpass@localhost:3306 --directory=/home/opc/router
+```
+Start MySQL Router
+```
+/home/opc/router/start.sh
+```
