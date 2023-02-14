@@ -45,7 +45,7 @@ mysqld_safe --defaults-file=/home/opc/db/3307/my.cnf &
 ```
 ## Create instance 3308
 ### Create Directories
-Run the following to create directory for 3307
+Run the following to create directory for 3308
 ```
 mkdir -p /home/opc/db/3308/data /home/opc/db/3308/innodb_data_home_dir /home/opc/db/3308/innodb_undo_directory /home/opc/db/3308/innodb_temp_tablespace_dir /home/opc/db/3308/innodb_temp_data_file_path /home/opc/db/3308/innodb_log_group_home_dir /home/opc/db/3308/log_bin
 ```
