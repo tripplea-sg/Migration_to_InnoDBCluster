@@ -74,6 +74,44 @@ mysqld --defaults-file=/home/opc/db/3306/my.cnf --initialize-insecure
 ```
 Start MySQL database
 ```
-mysqld_safe --defaults-file=/home/opc/db/3306/my.cnf 
+mysqld_safe --defaults-file=/home/opc/db/3306/my.cnf &
 ```
+## Execute out of place upgrade from MariaDB to MySQL
+Backup MariaDB using MySQL Shell dumpInstance
+```
+mysqlsh -uapps -papps -h10.0.0.110 -- util dumpInstance '/home/opc/backup' --compatibility=strip_definers
+```
+Check backup directory
+```
+ls /home/opc/backup
+```
+Load metadata to MySQL from backup using MySQL Shell loadDump
+```
+mysqlsh -uroot -h127.0.0.1 --sql -e 'set global local_infile=on'
+mysqlsh -uroot -h127.0.0.1 -- util loadDump '/home/opc/backup' --ignoreVersion=true --loadData=false --createInvisiblePKs=true 
+```
+Login to MySQL and modify character set definition
+```
+mysql -uroot -h::1
 
+show databases;
+use nation;
+alter table continents default charset=utf8mb4;
+alter table countries default charset=utf8mb4;
+alter table country_languages default charset=utf8mb4;
+alter table country_stats default charset=utf8mb4;
+alter table guests default charset=utf8mb4;
+alter table languages default charset=utf8mb4;
+alter table region_areas default charset=utf8mb4;
+alter table regions default charset=utf8mb4;
+exit;
+```
+Now, load data from backup to MySQL using MySQL Shell loadDump
+```
+mysqlsh -uroot -h127.0.0.1 -- util loadDump '/home/opc/backup' --ignoreVersion=true --loadDdl=false --createInvisiblePKs=true
+```
+Login and query tables
+```
+mysql -uroot -h::1 -e "select * from nation.languages"
+mysql -uroot -h::1 -e "select * from nation.countries"
+```
