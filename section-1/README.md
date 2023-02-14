@@ -118,5 +118,19 @@ mysql -uroot -h::1 -e "select * from nation.countries"
 ## Smooth Migration with Async Replication
 GTID is not compatible, thus replication has to use binlog position. Check binlog position captured by the backup
 ```
+cat /home/opc/backup/@.json | grep binlogFile
+cat /home/opc/backup/@.json | grep binlogPosition
+```
+Login to MySQL and create replication channel
+```
+mysql -uroot -h::1
 
+<please change value for source_log_file with binlogFile output and source_log_pos with binlogPosition output>
+
+set persist gtid_mode=on_permissive;
+
+change replication source to source_host='10.0.0.110', source_port=3306, source_user='repl', source_password='repl', source_log_file='bin.000001', source_log_pos=327885;
+
+start replica;
+show replica status \G
 ```
