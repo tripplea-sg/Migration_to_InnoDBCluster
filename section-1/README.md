@@ -42,7 +42,7 @@ mkdir -p /home/opc/db/3306/data /home/opc/db/3306/innodb_data_home_dir /home/opc
 Create option file / configuration file for the database with the following content </br>
 command: 
 ```
-vi /home/opc/db/3306/my.cnf)
+vi /home/opc/db/3306/my.cnf
 ```
 Copy and paste to vi
 ```
