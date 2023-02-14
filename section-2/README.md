@@ -121,3 +121,21 @@ Start MySQL Router
 ```
 /home/opc/router/start.sh
 ```
+Check Primary database from router
+```
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6446 -e "select @@port"
+```
+Switchover PRIMARY to 3308
+```
+mysqlsh gradmin:grpass@localhost:3306 -- cluster setPrimaryInstance localhost:3307
+mysqlsh gradmin:grpass@localhost:3306 -- cluster status
+```
+Check Primary database from router
+```
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6446 -e "select @@port"
+```
+Check Secondary database from router
+```
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+```
