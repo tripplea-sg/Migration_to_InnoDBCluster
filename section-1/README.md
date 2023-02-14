@@ -116,3 +116,7 @@ mysql -uroot -h::1 -e "select * from nation.languages"
 mysql -uroot -h::1 -e "select * from nation.countries"
 ```
 ## Smooth Migration with Async Replication
+GTID is not compatible, thus replication has to use binlog position. Check binlog position captured by the backup
+```
+
+```
