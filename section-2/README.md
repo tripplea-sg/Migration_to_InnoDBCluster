@@ -87,3 +87,24 @@ mysqld --defaults-file=/home/opc/db/3308/my.cnf --initialize-insecure
 ```
 mysqld_safe --defaults-file=/home/opc/db/3308/my.cnf &
 ```
+## Configure InnoDB Cluster
+### Configure Instances
+Configure-instance checks if an instance is suitably configured for InnoDB Cluster usage, and configures the instance if it finds any settings which are not compatible with InnoDB Cluster.
+```
+mysqlsh -- dba configure-instance { --host=127.0.0.1 --port=3306 --user=root } --clusterAdmin=gradmin --clusterAdminPassword='grpass' --interactive=false --restart=true
+
+mysqlsh -- dba configure-instance { --host=127.0.0.1 --port=3307 --user=root } --clusterAdmin=gradmin --clusterAdminPassword='grpass' --interactive=false --restart=true
+
+mysqlsh -- dba configure-instance { --host=127.0.0.1 --port=3308 --user=root } --clusterAdmin=gradmin --clusterAdminPassword='grpass' --interactive=false --restart=true
+```
+### Create Cluster on 3306
+The following command creates cluster with 1 node (PRIMARY)
+```
+mysqlsh gradmin:grpass@localhost:3306 -- dba createCluster mycluster
+```
+### How to add node 
+Adding nodes into cluster 
+```
+mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@localhost:3307 --recoveryMethod=clone
+mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@localhost:3308 --recoveryMethod=clone
+```
