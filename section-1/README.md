@@ -39,7 +39,12 @@ Create MySQL Database Directory
 ```
 mkdir -p /home/opc/db/3306/data /home/opc/db/3306/innodb_data_home_dir /home/opc/db/3306/innodb_undo_directory /home/opc/db/3306/innodb_temp_tablespace_dir /home/opc/db/3306/innodb_temp_data_file_path /home/opc/db/3306/innodb_log_group_home_dir /home/opc/db/3306/log_bin
 ```
-Create option file / configuration file for the database with the following content (command: vi /home/opc/db/3306/my.cnf)
+Create option file / configuration file for the database with the following content </br>
+command: 
+```
+vi /home/opc/db/3306/my.cnf)
+```
+Copy and paste to vi
 ```
 [mysqld]
 datadir=/home/opc/db/3306/data
