@@ -134,3 +134,9 @@ change replication source to source_host='10.0.0.110', source_port=3306, source_
 start replica;
 show replica status \G
 ```
+During cut-over, remove replicaton channel and set GTID_MODE=on
+```
+stop replica;
+reset replica all;
+set persist gtid_mode=on;
+``` 
