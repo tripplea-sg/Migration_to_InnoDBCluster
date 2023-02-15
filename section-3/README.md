@@ -104,20 +104,47 @@ Start restore metadata first
 mysql -uroot -h127.0.0.1 -P3307 -e "set global local_infile=on"
 mysqlsh -uroot -h127.0.0.1 -P3307 -- util loadDump '/home/opc/backup' --ignoreVersion=true --loadData=false --createInvisiblePKs=true --include-tables='nation.guests'
 ```
-Start restoring the table from full backup
+Hide all secondary nodes from MySQL Router
+```
+mysqlsh -ugradmin -pgrpass -h127.0.0.1 -P3307 --cluster -e "cluster.setInstanceOption('localhost:3306','tag:_hidden',true)"
+mysqlsh -ugradmin -pgrpass -h127.0.0.1 -P3307 --cluster -e "cluster.setInstanceOption('localhost:3308','tag:_hidden',true)"
+
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6446 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+```
+Start restoring the table from full backup into 3307
 ```
 mkdir -p /home/opc/meb/image/tmp
 mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3307 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
-
+```
+Restoring table from full backup into 3308 (PRIMARY won't be reachable from MySQL Router during restoration)
+```
 rm -Rf /home/opc/meb/image/tmp/*
 mysqlsh gradmin:grpass@localhost:3307 -- cluster setPrimaryInstance localhost:3308
 mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3308 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
 
+mysqlsh -ugradmin -pgrpass -h127.0.0.1 -P3307 --cluster -e "cluster.setInstanceOption('localhost:3308','tag:_hidden',false)" 
+
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6446 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+```
+Primary node is reachable from MySQL Eouter. </br>
+Restoring table from full backup into 3306 (PRIMARY won't be reachable from MySQL Router during restoration)
+```
 rm -Rf /home/opc/meb/image/tmp/*
 mysqlsh gradmin:grpass@localhost:3306 -- cluster setPrimaryInstance localhost:3306
 mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3306 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
 
+mysqlsh -ugradmin -pgrpass -h127.0.0.1 -P3306 --cluster -e "cluster.setInstanceOption('localhost:3306','tag:_hidden',false)" 
+
 mysqlsh gradmin:grpass@localhost:3307 -- cluster status
+```
+check connection from MySQL Router
+```
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6446 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
+mysql -ugradmin -pgrpass -h127.0.0.1 -P6447 -e "select @@port"
 ```
 Check tables on 3306, 3307, 3308
 ```
