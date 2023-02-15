@@ -101,7 +101,27 @@ mysql -uroot -h::1 -P3307 -e "drop table nation.guests"
 ```
 Start restore metadata first
 ```
-
+mysql -uroot -h127.0.0.1 -P3307 -e "set global local_infile=on"
+mysqlsh -uroot -h127.0.0.1 -P3307 -- util loadDump '/home/opc/backup' --ignoreVersion=true --loadData=false --createInvisiblePKs=true --include-tables='nation.guests'
 ```
+Start restoring the table from full backup
+```
+mkdir -p /home/opc/meb/image/tmp
+mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3307 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
 
+rm -Rf /home/opc/meb/image/tmp/*
+mysqlsh gradmin:grpass@localhost:3307 -- cluster setPrimaryInstance localhost:3308
+mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3308 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
 
+rm -Rf /home/opc/meb/image/tmp/*
+mysqlsh gradmin:grpass@localhost:3306 -- cluster setPrimaryInstance localhost:3306
+mysqlbackup --user=mysqlbackup --password=backup --host=127.0.0.1 --port=3306 --include-tables="^nation\.guests" --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
+
+mysqlsh gradmin:grpass@localhost:3307 -- cluster status
+```
+Check tables on 3306, 3307, 3308
+```
+mysql -uroot -h::1 -P3306 -e "select * from nation.guests"
+mysql -uroot -h::1 -P3307 -e "select * from nation.guests"
+mysql -uroot -h::1 -P3308 -e "select * from nation.guests"
+```
