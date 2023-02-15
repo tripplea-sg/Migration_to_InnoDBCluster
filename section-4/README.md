@@ -34,13 +34,21 @@ innodb_flush_log_at_trx_commit=1
 ```
 Restore full backup 
 ```
-
+rm -Rf /home/opc/meb/image/tmp/*
+mysqlbackup --defaults-file=/home/opc/db/5306/my.cnf --backup-dir=/home/opc/meb/tmp --backup-image=/home/opc/meb/image/full.mbi copy-back-and-apply-log
 ```
 Restore Incremental Backup
 ```
-
+rm -Rf /home/opc/meb/image/tmp/*
+mysqlbackup --defaults-file=/home/opc/db/5306/my.cnf --backup-dir=/home/opc/meb/image/tmp --backup-image=/home/opc/meb/image/incremental.mbi --incremental copy-back-and-apply-log
 ```
 Starting up 5306
 ```
+mysqld_safe --defaults-file=/home/opc/db/5306/my.cnf &
+```
+Check data
+```
+mysql -uroot -h::1 -P5306 -e "show databases"
 
+mysql -uroot -h::1 -P5306 -e "select * from dev.dev"
 ```
