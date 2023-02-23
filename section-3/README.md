@@ -95,6 +95,13 @@ Backup incremental using single file backup
 mysqlbackup -umysqlbackup -pbackup --host=127.0.0.1 --backup-dir=/home/opc/meb/image --backup-image=/home/opc/meb/image/incremental.mbi --incremental=optimistic --with-timestamp --incremental-base=history:last_full_backup backup-to-image
 ```
 ## Table-Level-Recovery (TLR)
+Backup DDLonly
+```
+mkdir -p /home/opc/backup
+rm -Rf /home/opc/backup/*
+mysqlsh root@localhost:3307 -- util dumpInstance '/home/opc/backup' --ddlOnly=true
+```
+
 Drop table nation.guests
 ```
 mysql -uroot -h::1 -P3307 -e "drop table nation.guests"
