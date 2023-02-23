@@ -75,7 +75,7 @@ mysqlbackup --backup-image=/home/opc/meb/image/full.mbi validate
 ```
 validate backup directory
 ```
-mysqbackup --backup-dir=/home/opc/meb/directory/<your backup directory> validate
+mysqlbackup --backup-dir=/home/opc/meb/directory/<your backup directory> validate
 ```
 ## Incrememtal Backup
 Create new transactions
