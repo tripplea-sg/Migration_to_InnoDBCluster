@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS query_rewrite.rewrite_rules (
   normalized_pattern VARCHAR(100)
 ) DEFAULT CHARSET = utf8mb4 ENGINE = INNODB;
 
+INSTALL PLUGIN rewriter SONAME 'rewriter.so';
+
 # connect to each other node
 set global super_read_only=off;
 INSTALL PLUGIN rewriter SONAME 'rewriter.so';
